@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+{# загружаем фильтр #}
+{% load user_filters %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+        <div class="card">
+            {% if is_edit %}
+            <div class="card-header">Редактировать запись</div>
+            {% else %}
+            <div class="card-header">Добавить запись</div>
+            {% endif %}
+            <div class="card-body">
+              {% for error in form.errors %}
+                  <div class="alert alert-danger" role="alert">
+                      {{ error|escape }}
+                  </div>
+                {% endfor %}
+                {% if is_edit %}
+                <form method="post" enctype="multipart/form-data" action="{% url 'post_edit' post.author post.id %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Сохранить">
+                </form>
+                {% else %}
+                <form method="post" enctype="multipart/form-data" action="{% url 'new_post' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Добавить">
+                </form>
+                {% endif %}
+            </div> <!-- card body -->
+        </div> <!-- card -->
+    </div> <!-- col -->
+</div> <!-- row -->
+{% endblock %}

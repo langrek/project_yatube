@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %} Последние обновления {% endblock %}
+{% block content %}
+<li> {% include "includes/author_card.html" with post=post %}</li>
+    <div class="container">
+           <h1> Профиль пользователя {{author.get_full_name}}</h1>
+            <!-- Вывод ленты записей -->
+                {% for post in page %}
+                  <!-- Вот он, новый include! -->
+        {% include "includes/post_card.html" with post=post %}
+                {% endfor %}
+    </div>
+ <!-- Вывод паджинатора -->
+        {% if page.has_other_pages %}
+            {% include "includes/paginator.html" with items=page paginator=paginator%}
+        {% endif %}
+
+{% endblock %}
